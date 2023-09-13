@@ -1,4 +1,5 @@
-You are to code an API for the two-player game of Pente
+You are to code an API for the two-player game of Pente. In essence your API will be providing an AI player that makes moves in Pente. 
+You need not make intelligent moves, but you must make legal moves.
 
 You can find information about the game at the following links:
 - [Wikipedia Page](https://en.wikipedia.org/wiki/Pente)
