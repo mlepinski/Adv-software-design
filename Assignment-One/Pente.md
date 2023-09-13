@@ -42,7 +42,7 @@ The **gameID** should be an integer that can be used to reference a particular g
 The **gamestate** If you are player O then the game state should be an empty board (waiting for your opponent to move). 
 If you are player X, then the gamestate should have a single X piece on the board in the location of your player's first move
 
-## API Endpoing - Next Move
+## API Endpoint - Next Move
 
 /nextmove/gameID/row/col
 
