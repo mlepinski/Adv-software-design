@@ -45,7 +45,27 @@ If you are player X, then the gamestate should have a single X piece on the boar
 
 /nextmove/gameID/row/col
 
-Input: **
+Input: 
+-- **gameID** is the unique ID that was associated with the game when it was created. 
+-- **row** is the row in which your opponent placed their piece
+-- **col** is the column in which your opponent placed their piece
+
+You should update the gamestate for the given gameID to add your opponent's newest piece at location row, col. Then your AI player should make a legal move.
+
+Output is a JSON Object:
+
+  {
+  'ID': gameID
+  'row': myRow
+  'column': myCol
+  'state' : new_gamestate
+  }
+
+The **gameID** should be the same as was provided in the input
+
+**myRow** and **myCol** should be the row and column where your AI player just placed a piece.
+
+The **gamestate** should be the new state of the game incorporating both your opponent's move and your latest move.
 
 ## Submission
 
