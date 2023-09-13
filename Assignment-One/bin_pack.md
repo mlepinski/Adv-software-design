@@ -1,71 +1,119 @@
 You are to code an API that provides a Bin Packing algorithm. It is not important that your Bin Packing algorithm do a good job, only that it operates correctly.
 
-You can find information about the game at the following links:
-- [Wikipedia Page](https://en.wikipedia.org/wiki/Pente)
-- [Rules Document](https://www.ultraboardgames.com/pente/game-rules.php)
+You can find information about the general Bin Packing problem here.
+- [Wikipedia Page]([https://en.wikipedia.org/wiki/Pente](https://en.wikipedia.org/wiki/Bin_packing_problem)
+
+For this particular version of the Bin Packing problem, all bins have a 100 units of space (capacity) and each item has an integer size.
+The goal is to pack a series of items using as few bins as possible. 
+
+Note: This is the 'online' version of the problem where the algorithm doing the packing only gets to see one item at time. 
 
 ---
 
-## Board Encoding
+## State Encoding
 
-The two players are denoted X and O. Player X is the player who moves first. Blank squares are denoted by the dash character \-
+A set of partially packed bins are encoded as follows:
 
-The state of the game is encoded as a string with the following format:
+  ##binOneItems#binTwoItems#binThreeItems# ... ##
 
-  player#board#capturedX#capturedO
+That is, the set of bins is an arbitrarily long sequence of substrings separated by the # symbol where each substring encodes a bin.
 
-The components of the game state are as follows:
-- **player** is a single character (either X or O) indicating who is the next player to place a stone
-- **board** is a string of 361 characters (one for each space of the board) indicating which piece is on each square. Each character should be X, O or dash.
-- The first 19 characters represent the first row of the board, the second 19 characters represent the second row, and so forth ...
-- **capturedX** indicates the number of stones (originally belonging to O) that have been captured by the X player.
-- **capturedY** indicates the number of stones (originally belonging to X) that have been captured by the O player.
+Each of the substrings (e.g., binTwoItems) should be encoded as follows:
+  sizeOne!sizeTwo!sizeThree! ... 
 
-## API Endpoint - New Game
+That is, the bin is a sequence of item sizes (for items currently in the bin) separated by a ! symbol
 
-Your API is essentially implementing a simple AI for the Pente game. You are NOT asked to make good moves, but you must make legal moves.
+As an example, the following string encodes a set of three bins where:
+- The first bin has items of sizes 1, 2, and 3
+- The second bin has a single item of size 44
+- The third bin has found itmes of sizes 5, 6, 7, and 8
 
-/newgame/player
+  ##1!2!3#44#5!6!7!8##
 
-Input: **player** is either X or O indicating whether your AI is playing as X or as O
+Recall that each bin has a capacity of 100. Therefore, an encoding is invalid if the sum of the sizes in any bin exceed 100.
+
+## API Endpoint - New Problem
+
+Recall that your API is essentially implementing a bin packing algorithm. You are presented with items and need to decide which bin they go into. 
+You don't need to make smart decisions, but you need to make valid decisions.
+
+/newproblem/
+
+Input: There is no input for this API endpoint
 
 Output is a JSON Object:
 
   {
-  'ID': gameID
-  'state' : gamestate
+  'ID': problemID
+  'bins' : binEncoding
   }
 
-The **gameID** should be an integer that can be used to reference a particular game. (Each gameID should be unique)
+The **problemID** should be an integer that can be used to reference a particular set of bins that are being packed.
 
-The **gamestate** If you are player O then the game state should be an empty board (waiting for your opponent to move). 
-If you are player X, then the gamestate should have a single X piece on the board in the location of your player's first move
+The **binEncoding** for a new (fresh) instance of bin packing should be an empty set containing no bins. 
 
-## API Endpoing - Next Move
+## API Endpoint - Place Item
 
-/nextmove/gameID/row/col
+/placeitem/problemID/size
 
 Input: 
--- **gameID** is the unique ID that was associated with the game when it was created. 
--- **row** is the row in which your opponent placed their piece
--- **col** is the column in which your opponent placed their piece
+-- **problemID** is the unique ID that was associated with the problem instance when it was created (see above). 
+-- **size** is the size of the new item to be placed in a bin.
 
-You should update the gamestate for the given gameID to add your opponent's newest piece at location row, col. Then your AI player should make a legal move.
+Your algorithm must choose which bin to place the item in and then provide an encoding of the bins with the new item now placed within a bin.
+
+*IMPORTANT*: Your algorithm is not allowed to move items that have already been placed!
 
 Output is a JSON Object:
 
   {
-  'ID': gameID
-  'row': myRow
-  'column': myCol
-  'state' : new_gamestate
+  'ID': problemID
+  'size' : new_item_size
+  'loc' : bin_number
+  'bins' : new_bin_encoding
   }
 
-The **gameID** should be the same as was provided in the input
+The **problemID** should be the same as was provided in the input
 
-**myRow** and **myCol** should be the row and column where your AI player just placed a piece.
+**new_item_size** should be the size of the newly placed item 
 
-The **gamestate** should be the new state of the game incorporating both your opponent's move and your latest move.
+**bin_number** should be the number of the bin where the new item was placed. (Please number the first bin as 1)
+
+The **new_bin_encoding** should be a string encoding the set of bins with the new itemed placed.
+
+## API Endpoint - End Problem
+
+/endproblem/problemID
+
+Input: 
+-- **problemID** is the unique ID that was associated with the problem instance when it was created (see above). 
+
+Your algorithm should end the current problem instance. Any further attempts to add items to this problem instance should fail.
+
+You should then return the following information about the problem instance.
+
+Output is a JSON Object:
+
+  {
+  'ID': problemID
+  'size' : total_size
+  'items' : num_items
+  'count' : num_bins
+  'wasted' : wasted_space
+  'bins' : bin_encoding
+  }
+
+The **problemID** should be the same as was provided in the input
+
+**total_size** should be the total size of all of the items
+
+**num_items** should be the number of items placed in the collection of bins
+
+**num_bins** should be the number of bins used to store the items
+
+**wasted_space** should be the capacity of all of the bins minus the total size of the items
+
+The **bin_encoding** should be a string encoding of the final set of packed bins.
 
 ## Submission
 
