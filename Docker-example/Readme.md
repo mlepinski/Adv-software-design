@@ -19,4 +19,4 @@ finally, you can get an interactive terminal on either of the container machines
 
 Note that MY_CONTAINER_NAME should be the name of the running container where you want shell (terminal) access. 
 When you start the containers using "docker compose up" it should print out the container names as they are starting. 
-They often look like "docker-test-web-1" or something similar.
+They often look like "docker-example-web-1" or something similar.
