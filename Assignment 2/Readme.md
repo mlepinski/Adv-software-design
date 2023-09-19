@@ -2,10 +2,9 @@
 
 - You will receive source code via email.
 - You are to use this source code as a starting point for your work.
-- We will start the assignment on Wednesday (Sept 20) and it will be due the evening of Monday (Sept 25).
-- As with Assignment 1, 
+- We will start the assignment in class on Wednesday (Sept 20) and it will be due the evening of Monday (Sept 25).
 - You will be working in sets of three, please find your teammates in the file **Teams.md**
-- The file **Teams.md** will also tell you which of the two assignments to do
+- The file **Teams.md** will also tell you which of the two projects your team should complete.
 
 # Reflection
 
