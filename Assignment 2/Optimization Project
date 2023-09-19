@@ -1,0 +1,20 @@
+# Assignment Two : Fun with Bin Packing
+
+You have been given code that implements the API described here: [Bin Packing API Specification](https://github.com/mlepinski/Adv-software-design/blob/main/Assignment-One/Bin_Pack.md)
+
+## Goal
+
+Your high-level goal is to create an **algorithm evaluation system** that allows you to evaluate the performance of a Bin Packing algorithm across a variety of data sets.
+
+Note: The Bin Packing API specified that all bin packing problems must use bins of size 100. For this assignment you will be adjusting the API to accomodate bins of any (fixed) size. 
+(E.g., your framework should support bin packing problems with size 10 bins, or size 25 bins, or any size that the problem instance specifies.)
+
+# Requirements
+
+**NEED TO WRITE THESE**
+
+# Turning In the Assignment
+
+Your team should submit a link to a repository that contains a compose.yaml file as well as all files necessary to build and run your docker containers.
+
+If there is any other information that I need to make use of your algorithm evaluation framework, please make sure that information is easy to find in your repository.
